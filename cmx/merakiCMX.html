@@ -1,0 +1,69 @@
+<script type="text/x-red" data-template-name="meraki-cmx-settings">
+    <div class="form-row">
+       <label for="node-config-input-name"><i class="icon-tag"></i> Name</label>
+       <input type="text" id="node-config-input-name">
+    </div>
+    <div class="form-row">
+       <label for="node-config-input-secret"><i class="icon-tag"></i> Secret</label>
+       <input type="text" id="node-config-input-secret">
+    </div>
+    <div class="form-row">
+       <label for="node-config-input-validator"><i class="icon-tag"></i> Validator</label>
+       <input type="text" id="node-config-input-validator">
+    </div>
+    <div class="form-row">
+       <label for="node-config-input-port"><i class="icon-tag"></i> Listening Port</label>
+       <input type="text" id="node-config-input-port">
+    </div>
+    <div class="form-row">
+       <label for="node-config-input-url"><i class="icon-tag"></i> Listening URL</label>
+       <input type="text" id="node-config-input-url">
+    </div>
+
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('meraki-cmx-settings',{
+        category: 'config',
+        defaults: {
+            name: {value: ""},
+            port: {value:"9000",required:true},
+            url: {value:"/cmx",required:true}
+        },
+        credentials: {
+            secret: {type:"text"},
+            validator: {type:"text"}
+        },
+        label: function() {
+            return this.name || "Meraki";
+        }
+    });
+</script>
+
+
+<script type="text/x-red" data-template-name="Meraki CMX">
+    <div class="form-row">
+        <label for="node-input-settings"><i class="fa fa-globe"></i> CMX Settings</label>
+        <input type="text" id="node-input-settings">
+    </div>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('Meraki CMX',{
+        category: 'input',
+        color: '#d3d3d3',
+        defaults: {
+            settings: {value:"",type:"meraki-cmx-settings"}
+        },
+        inputs:0,
+        outputs:1,
+        icon: "meraki.ico",
+        label: function() {
+            return this.name||"Meraki CMX";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-help-name="Meraki CMX">
+    <p>A Cisco Meraki CMX (Connected Mobile experience) node to receive presense information from a Meraki WiFi network</p>
+</script>
