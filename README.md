@@ -23,5 +23,7 @@ ToDo:
 ####Written by Cory Guynn, 2016
 #####www.InternetOfLEGO.com
 
+![Alt text](node-red-contrib-meraki-cmx-screenshot.png?raw=true "Optional Title")
+
 
 
