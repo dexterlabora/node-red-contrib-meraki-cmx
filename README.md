@@ -1,24 +1,35 @@
 # node-red-contrib-meraki-cmx
-A node-red node to to receive WiFi presence analytics from a Cisco Meraki wireless network.
+A Node-RED node to to receive WiFi presence analytics from a Cisco Meraki wireless network.
 
 ## Description
-This is an initital release of the Node-Red Module for Meraki CMX.
+A Cisco Meraki CMX (Connected Mobile eXperience) node to receive presence information from a Meraki WiFi network.
 
-##Considerations
+Meraki WiFi access points will send their WiFi presence observations, via the Meraki cloud, to this node. The JSON stream will be available in the `msg.payload` object.
+
+More information on the CMX Location API can be found on the Meraki Developers Portal. http://developers.meraki.com/tagged/Location
+
+##How it works
+The CMX Node requires the following configurations
+
+####Validator
+- Used by Meraki to validate the receiver. The CMX Node will respond with the validator when Meraki performs a [GET] request to your server.
+- When a validator response is sent to Meraki, a copy of the response will be available in the `msg.validator` object.
+
+####Secret
+- Used by the CMX Node to ensure the JSON stream is from the appropriate sendor.
+
+####URL
+- The URL that will listen for the JSON stream. This path will be appended to the servers domain name and port. `http://yourserver:port/URL`
+If the node encounters any errors, the `msg.error` object will contain this information.
+
 
 ##Install:
+Currently a work in progress, just copy the contents into the `.node-red/node_modules` folder and restart Node-RED.
 
-Currently a work in progress, just copy the contents into the `.node-red/node_modules` folder
+Known Issues:
+- Multiple Nodes with an identical URL will not function properly. 
 
-Bugs:
-- Multiple Nodes with identical settings will crash
-- Multiple Nodes with identical ports will crash
-- Basically, you can have multiple nodes as long as the ports are unique
 
-ToDo:
-- SSL support
-- Remove debugging messages
-- Security/Performance testing
 
 ####Written by Cory Guynn, 2016
 #####www.InternetOfLEGO.com
