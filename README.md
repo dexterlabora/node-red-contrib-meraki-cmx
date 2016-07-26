@@ -23,7 +23,7 @@ The CMX Node requires the following configurations
 - When a validator response is sent to Meraki, a copy of the response will be available in the `msg.validator` object.
 
 ####Secret
-- Used by the CMX Node to ensure the JSON stream is from the appropriate sendor.
+- Used by the CMX Node to ensure the JSON stream is from the appropriate sender.
 
 ####URL
 - The URL that will listen for the JSON stream. This path will be appended to the servers domain name and port. `http://yourserver:port/URL`
