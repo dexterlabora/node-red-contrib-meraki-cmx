@@ -1,6 +1,6 @@
 {
   "name": "node-red-contrib-meraki-cmx",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "A Cisco Meraki node to receive CMX data for presense analytics with WiFi",
   "author": {
     "name": "Cory Guynn",
