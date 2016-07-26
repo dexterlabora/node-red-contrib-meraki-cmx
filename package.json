@@ -4,11 +4,11 @@
   "description": "A Cisco Meraki node to receive CMX data for presense analytics with WiFi",
   "author": {
     "name": "Cory Guynn",
-    "email": "cguynn@gmail.com"
+    "email": "cory@internetoflego.com"
   },
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/dexterlabora/node-red-contrib-meraki-cmx.git"
   },
   "dependencies": {},
   "keywords": [
