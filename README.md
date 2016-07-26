@@ -25,7 +25,6 @@ ToDo:
 
 ![Alt text](node-red-contrib-meraki-cmx-screenshot-overview.png?raw=true "CMX Overview")
 ![Alt text](node-red-contrib-meraki-cmx-screenshot-settings.png?raw=true "CMX Settings")
-![Alt text](node-red-contrib-meraki-cmx-screenshot-credentials.png?raw=true "CMX Credentials")
 
 
 
