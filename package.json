@@ -19,7 +19,6 @@
       "CMX": "cmx/merakiCMX.js"
     }
   },
-  "readme": "# node-red-contrib-meraki-cmx\nA Cisco Meraki node to receive CMX data for presense analytics with WiFi\n\n## Description\nThis is an initital release of the Node-Red Module for Meraki CMX.",
   "readmeFilename": "README.md",
   "bugs": {
     "url": ""
