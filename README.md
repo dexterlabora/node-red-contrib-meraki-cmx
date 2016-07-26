@@ -1,5 +1,5 @@
 # node-red-contrib-meraki-cmx
-A Node-RED node to to receive WiFi presence analytics from a Cisco Meraki wireless network.
+A Node-RED node to receive WiFi presence analytics from a Cisco Meraki wireless network.
 
 ## Description
 A Cisco Meraki CMX (Connected Mobile eXperience) node to receive presence information from a Meraki WiFi network.
@@ -32,7 +32,8 @@ Known Issues:
 
 
 ####Written by Cory Guynn, 2016
-#####www.InternetOfLEGO.com
+#####http://www.InternetOfLEGO.com
+#####http://developers.meraki.com
 
 ![Alt text](node-red-contrib-meraki-cmx-screenshot-overview.png?raw=true "CMX Overview")
 ![Alt text](node-red-contrib-meraki-cmx-screenshot-settings.png?raw=true "CMX Settings")
