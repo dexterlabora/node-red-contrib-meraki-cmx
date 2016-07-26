@@ -1,6 +1,13 @@
 # node-red-contrib-meraki-cmx
 A Node-RED node to receive WiFi presence analytics from a Cisco Meraki wireless network.
 
+##Install
+
+Run the following command in your Node-RED user directory - typically ~/.node-red
+
+    npm i node-red-contrib-meraki-cmx
+
+
 ## Description
 A Cisco Meraki CMX (Connected Mobile eXperience) node to receive presence information from a Meraki WiFi network.
 
