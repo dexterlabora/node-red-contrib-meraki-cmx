@@ -30,11 +30,8 @@ The CMX Node requires the following configurations
 If the node encounters any errors, the `msg.error` object will contain this information.
 
 
-##Install:
-Currently a work in progress, just copy the contents into the `.node-red/node_modules` folder and restart Node-RED.
-
-Known Issues:
-- Multiple Nodes with an identical URL will not function properly.
+###Known Issues:
+- Multiple Nodes with an identical URL will not function properly. Instead, use a "link" node to send the data to multiple flows.
 
 
 
