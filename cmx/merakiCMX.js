@@ -35,7 +35,7 @@ module.exports = function (RED) {
   // output node
   function merakiCMX(n) {
     RED.nodes.createNode(this,n);
-    console.log('merakiCMX n '+JSON.stringify(n, null, 3));
+    //console.log('merakiCMX n '+JSON.stringify(n, null, 3));
     this.name = n.name;
     this.url = n.url;
     // Retrieve the config node
@@ -45,7 +45,7 @@ module.exports = function (RED) {
     // copy "this" object in case we need it in context of callbacks of other functions.
     var node = this;
 
-    console.log('merakiCMX this '+ JSON.stringify(this, null, 3));
+    //console.log('merakiCMX this '+ JSON.stringify(this, null, 3));
 
     // Start CMX Listener
     cmxServer(node);
