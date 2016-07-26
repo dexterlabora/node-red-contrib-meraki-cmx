@@ -12,7 +12,9 @@
   },
   "dependencies": {},
   "keywords": [
-    "node-red, meraki, cmx"
+    "node-red",
+    "meraki",
+    "cmx"
   ],
   "node-red": {
     "nodes": {
