@@ -5,7 +5,7 @@ A Node-RED node to receive WiFi presence analytics from a Cisco Meraki wireless 
 
 Run the following command in your Node-RED user directory - typically ~/.node-red
 
-    npm i node-red-contrib-meraki-cmx
+    `npm i node-red-contrib-meraki-cmx`
 
 
 ## Description
@@ -34,7 +34,7 @@ If the node encounters any errors, the `msg.error` object will contain this info
 Currently a work in progress, just copy the contents into the `.node-red/node_modules` folder and restart Node-RED.
 
 Known Issues:
-- Multiple Nodes with an identical URL will not function properly. 
+- Multiple Nodes with an identical URL will not function properly.
 
 
 
