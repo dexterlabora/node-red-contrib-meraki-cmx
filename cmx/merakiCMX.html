@@ -17,14 +17,14 @@
     RED.nodes.registerType('meraki-cmx-settings',{
         category: 'config',
         defaults: {
-            name: {value: ""}
+            name: {value: "",required:true}
         },
         credentials: {
-            secret: {type:"text"},
-            validator: {type:"text"}
+            secret: {type:"text",required:true},
+            validator: {type:"text",required:true}
         },
         label: function() {
-            return this.name || this.validator;
+            return this.name;
         }
     });
 </script>
@@ -50,6 +50,7 @@
         category: 'input',
         color: '#d3d3d3',
         defaults: {
+          name: {value:""},
           url: {value:"/cmx", required:true},
           settings: {value:"",type:"meraki-cmx-settings",required:true}
         },
@@ -58,7 +59,11 @@
         icon: "meraki.ico",
         paletteLabel: "Meraki CMX",
         label: function() {
-            return this.name||"CMX: "+this.url;
+            if (this.name) {
+                return this.name;
+            } else{
+              return this.url;
+            }
         }
     });
 </script>

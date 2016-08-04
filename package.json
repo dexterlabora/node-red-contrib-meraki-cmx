@@ -14,7 +14,8 @@
   "keywords": [
     "node-red",
     "meraki",
-    "cmx"
+    "cmx",
+    "cisco"
   ],
   "node-red": {
     "nodes": {
