@@ -15,15 +15,15 @@
 module.exports = function (RED) {
   "use strict";
 
-  function merakiCMXsettings(n) {
-      RED.nodes.createNode(this,n);
-      //this.name = n.name;
-      //this.url = n.url;
-      //console.log('merakiCMXsettings n %j',n);
+  function merakiCMXsettings(config) {
+      RED.nodes.createNode(this,config);
+      //this.name = config.name;
+      //this.url = config.url;
+      //console.log('merakiCMXsettings config %j',config);
       //console.log('merakiCMXsettings this  %j',this);
       //console.log('merakiCMXsettings this '+ JSON.stringify(this, null, 2));
   }
-
+  // Settings
   RED.nodes.registerType("meraki-cmx-settings",merakiCMXsettings,{
     credentials: {
         secret: {type:"password"},
@@ -33,25 +33,65 @@ module.exports = function (RED) {
 
 
   // output node
-  function merakiCMX(n) {
-    RED.nodes.createNode(this,n);
-    //console.log('merakiCMX n '+JSON.stringify(n, null, 3));
-    this.name = n.name;
-    this.url = n.url;
-    // Retrieve the config node
-    this.settings = RED.nodes.getNode(n.settings);
+  function merakiCMX(config) {
+    RED.nodes.createNode(this,config);
+    //console.log('merakiCMX config '+JSON.stringify(config, null, 3));
 
+    if (!config.url) {
+        this.warn(RED._("merakiCMX.errors.missing-path"));
+        return;
+    }
+    this.name = config.name;
+    this.url = config.url;
+    // Retrieve the config node
+    this.settings = RED.nodes.getNode(config.settings);
 
     // copy "this" object in case we need it in context of callbacks of other functions.
     var node = this;
 
     //console.log('merakiCMX this '+ JSON.stringify(this, null, 3));
+    //console.log('merakiCMX node object '+ JSON.stringify(node, null, 3));
 
-    // Start CMX Listener
+    // Start CMX Listener using config settings
     cmxServer(node);
+
+    // close open URL listeners
+    this.on("close",function() {
+        var node = this;
+        console.log("closing routes");
+        console.log("node.url "+node.url);
+        //console.log("RED.httpNode._router.stack "+ JSON.stringify(RED.httpNode._router.stack, null, 3));
+        for (var i = RED.httpNode._router.stack.length - 1; i >= 0; i--) {
+          if (RED.httpNode._router.stack[i].route){
+            if (RED.httpNode._router.stack[i].route.path === node.url) {
+              console.log("removing "+node.url);
+
+              RED.httpNode._router.stack.splice(i, 1);
+            }
+          }
+        }
+        //console.log("RED.httpNode._router.stack: New Results"+ JSON.stringify(RED.httpNode._router.stack, null, 3));
+
+        /*
+        RED.httpNode._router.stack.forEach(function(route,i,routes) {
+            console.log("route.route "+route.route);
+            console.log("route.route.path "+route.route.path);
+
+            if (route.route && route.route.path === node.url) {
+                routes.splice(i,1);
+                console.log("route closed: /"+node.url);
+            }else{
+              console.log("no routes closed");
+            }
+        });
+        */
+    });
+
+
   };
   RED.nodes.registerType("Meraki CMX",merakiCMX);
 
+  // CMX Server
   function cmxServer(node){
     console.log('cmxServer url: '+node.url);
     console.log('cmxServer validator: '+node.settings.credentials.validator);
@@ -60,14 +100,14 @@ module.exports = function (RED) {
 
     var msg = {};
 
-    RED.httpAdmin.get(node.url, function(req, res){
+    RED.httpNode.get(node.url, function(req, res){
       console.log("sending validation: "+node.settings.credentials.validator);
       msg.validator = node.settings.credentials.validator;
       node.send(msg);
       res.send(msg.validator);
     });
 
-    RED.httpAdmin.post(node.url, function(req, res){
+    RED.httpNode.post(node.url, function(req, res){
         //var jsoned = JSON.parse(req.body.data);
         console.log(node.url+' validating secret');
         console.log('cmx req.body: %j',req.body);
@@ -77,7 +117,7 @@ module.exports = function (RED) {
             console.log(node.url+' secret verified');
             msg.payload = req.body;
             node.send(msg);
-            res.status('ok');
+            res.status(200);
          }else{
             console.log('invalid secret from: '+req.connection.remoteAddress);
             msg.error = 'invalid secret from: '+req.connection.remoteAddress;
