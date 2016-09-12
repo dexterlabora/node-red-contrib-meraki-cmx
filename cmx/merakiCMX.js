@@ -97,12 +97,19 @@ module.exports = function (RED) {
     console.log('cmxServer validator: '+node.settings.credentials.validator);
     //console.log('cmxServer node: '+JSON.stringify(node, null, 2));
     //console.log('cmxServer secret: '+node.settings.credentials.secret);
+    
+    node.status({fill:"yellow",shape:"dot",text:"waiting for first contact"});
 
     var msg = {};
 
     RED.httpNode.get(node.url, function(req, res){
       console.log("sending validation: "+node.settings.credentials.validator);
+      node.status({fill:"blue",shape:"dot",text:"sent validator"});
+      setTimeout(function(){
+              node.status({fill:"green",shape:"dot",text:"listening"});
+            }, 5000);
       msg.validator = node.settings.credentials.validator;
+      msg.payload = null;
       node.send(msg);
       res.send(msg.validator);
     });
@@ -115,20 +122,29 @@ module.exports = function (RED) {
       try{
           if (req.body.secret == node.settings.credentials.secret) {
             console.log(node.url+' secret verified');
+            node.status({fill:"blue",shape:"dot",text:"data received"});
+            setTimeout(function(){
+              node.status({fill:"green",shape:"dot",text:"listening"});
+            }, 5000);
             msg.payload = req.body;
             node.send(msg);
             res.status(200);
          }else{
             console.log('invalid secret from: '+req.connection.remoteAddress);
+            node.status({fill:"red",shape:"dot",text:"secret invalid"});
             msg.error = 'invalid secret from: '+req.connection.remoteAddress;
+            msg.payload = null;
             node.send(msg);
             res.sendStatus(401); // unauthorized
          }
        } catch (e) {
          // An error has occured
          console.log("Error.  Invalid POST from " + req.connection.remoteAddress);
+         node.status({fill:"red",shape:"dot",text:"invalid post"});
+         
          console.log(e);
          msg.error = "Invalid POST from " + req.connection.remoteAddress;
+         msg.payload = null;
          node.send(msg);
          res.end();
         }
