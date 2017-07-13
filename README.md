@@ -97,10 +97,13 @@ July 2017
 
 
 
-![](https://github.com/dexterlabora/node-red-contrib-meraki-cmx/blob/master/node-red-contrib-meraki-cmx-screenshot-overview.png?raw=true "CMX Overview")
-![](https://github.com/dexterlabora/node-red-contrib-meraki-cmx/blob/master/node-red-contrib-meraki-cmx-screenshot-settings.png?raw=true "CMX Settings")
+![](https://github.com/dexterlabora/node-red-contrib-meraki-cmx/blob/master/meraki-dashboard-map.png?raw=true "Meraki Dashboard Map")
 
+![](https://github.com/dexterlabora/node-red-contrib-meraki-cmx/blob/master/meraki-node-flow.png?raw=true "Meraki Scanning Node Flow")
 
+![](https://github.com/dexterlabora/node-red-contrib-meraki-cmx/blob/master/meraki-node-settings.png?raw=true "Meraki Node Settings")
+
+![](https://github.com/dexterlabora/node-red-contrib-meraki-cmx/blob/master/meraki-worldmap-large.png?raw=true "Meraki Worldmap")
 
 
 ## Sample Flow
