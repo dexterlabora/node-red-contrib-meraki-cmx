@@ -32,6 +32,10 @@
 
 <script type="text/x-red" data-template-name="Meraki CMX">
     <div class="form-row">
+        <h3>Meraki Scanning API Node</h3>
+        <p>Currently supports Meraki API <b>v2.0</b></p>
+    </div>
+    <div class="form-row">
         <label for="node-input-settings"><i class="fa fa-cogs"></i> Credentials</label>
         <input type="text" id="node-input-settings">
     </div>
@@ -43,6 +47,15 @@
         <label for="node-input-url"><i class="fa fa-tag"></i> URL</label>
         <input type="text" id="node-input-url" placeholder="/cmx">
     </div>
+    <div class="form-row">
+        <label for="node-input-radioType"><i class="fa fa-tag"></i>Radio Type</label>
+        <select type="text" id="node-input-radioType">
+            <option selected=true value="All">All Radio Types</option>
+            <option value="DevicesSeen">WiFi Only</option>
+            <option value="BluetoothDevicesSeen">Bluetooth Only</option>
+        </select>
+    </div>
+
 </script>
 
 <script type="text/javascript">
@@ -52,10 +65,12 @@
         defaults: {
           name: {value:""},
           url: {value:"/cmx", required:true},
-          settings: {value:"",type:"meraki-cmx-settings",required:true}
+          settings: {value:"",type:"meraki-cmx-settings",required:true},
+          radioType: {value:"All"}
         },
         inputs:0,
-        outputs:1,
+        outputs:2,
+        outputLabels: ["data","status"],
         icon: "meraki.ico",
         paletteLabel: "Meraki CMX",
         label: function() {
@@ -69,14 +84,14 @@
 </script>
 
 <script type="text/x-red" data-help-name="Meraki CMX">
-    <h1>Cisco Meraki CMX</h1>
-    <p>A Cisco Meraki CMX (Connected Mobile experience) node to receive presence information from a Meraki WiFi network.</p>
-    <p>Meraki WiFi access points will send their WiFi presence observations, via the Meraki cloud, to this node. The JSON
+    <h1>Cisco Meraki Scanning API</h1>
+    <p>A Cisco Meraki Scanning API node to receive location information from a Meraki WiFi network.</p>
+    <p>Meraki WiFi access points will send their WiFi and Bluetooth beacon observations, via the Meraki cloud, to this node. The JSON
     stream will be available in the <code>msg.payload</code> object.</p>
     <p>More information on the CMX Location API can be found on the <a href="http://developers.meraki.com/tagged/Location">
     Meraki Developers Portal</a>
     <h2>How it works</h2>
-    <p>The CMX Node requires the following configurations</p>
+    <p>The Meraki Node requires the following configurations</p>
 
   <dl>
     <dt>Validator</dt>
@@ -84,7 +99,7 @@
       [GET] request to your server.
       </dd>
       <dd>
-      - When a validator response is sent to Meraki, a copy of the response will be available in the <code>msg.validator</code> object.
+      - When a validator response is sent to Meraki, a copy of the response will be available on the <b>status</b> output in the <code>msg.payload</code>.
       </dd>
     <dt>Secret</dt>
       <dd>- Used by the CMX Node to ensure the JSON stream is from the appropriate sendor.</dd>
@@ -94,7 +109,10 @@
       </dd>
   </dl>
 
-<p>If the node encounters any errors, the <code>msg.error</code> object will contain this information.</p>
+<p>If the node encounters any errors, the **status** output will contain this information based on a topic.</p>
+
+<a href="https://flows.nodered.org/node/node-red-contrib-meraki-cmx">Official Doc</a>
+
 <h3>Written by Cory Guynn</h3>
 <p><a href="http://www.InternetOfLEGO.com" target="_blank">http://www.InternetOfLEGO.com</a></p>
 <p><a href="https://meraki.cisco.com/" target="_blank">https://meraki.cisco.com/</a></p>
