@@ -45,7 +45,7 @@
     </div>
     <div class="form-row">
         <label for="node-input-url"><i class="fa fa-tag"></i> URL</label>
-        <input type="text" id="node-input-url" placeholder="/cmx">
+        <input type="text" id="node-input-url" placeholder="/scanning">
     </div>
     <div class="form-row">
         <label for="node-input-radioType"><i class="fa fa-tag"></i>Radio Type</label>
@@ -60,11 +60,11 @@
 
 <script type="text/javascript">
     RED.nodes.registerType('Meraki CMX',{
-        category: 'input',
+        category: 'cisco meraki',
         color: '#d3d3d3',
         defaults: {
           name: {value:""},
-          url: {value:"/cmx", required:true},
+          url: {value:"/scanning", required:true},
           settings: {value:"",type:"meraki-cmx-settings",required:true},
           radioType: {value:"All"}
         },
@@ -72,7 +72,7 @@
         outputs:2,
         outputLabels: ["data","status"],
         icon: "meraki.ico",
-        paletteLabel: "Meraki CMX",
+        paletteLabel: "Location",
         label: function() {
             if (this.name) {
                 return this.name;
@@ -88,21 +88,21 @@
     <p>A Cisco Meraki Scanning API node to receive location information from a Meraki WiFi network.</p>
     <p>Meraki WiFi access points will send their WiFi and Bluetooth beacon observations, via the Meraki cloud, to this node. The JSON
     stream will be available in the <code>msg.payload</code> object.</p>
-    <p>More information on the CMX Location API can be found on the <a href="http://developers.meraki.com/tagged/Location">
+    <p>More information on the Scanning/CMX Location API can be found on the <a href="http://developers.meraki.com/tagged/Location">
     Meraki Developers Portal</a>
     <h2>How it works</h2>
     <p>The Meraki Node requires the following configurations</p>
 
   <dl>
     <dt>Validator</dt>
-      <dd>- Used by Meraki to validate the receiver. The CMX Node will respond with the <b>validator</b> when Meraki performs a
+      <dd>- Used by Meraki to validate the receiver. The Node will respond with the <b>validator</b> when Meraki performs a
       [GET] request to your server.
       </dd>
       <dd>
       - When a validator response is sent to Meraki, a copy of the response will be available on the <b>status</b> output in the <code>msg.payload</code>.
       </dd>
     <dt>Secret</dt>
-      <dd>- Used by the CMX Node to ensure the JSON stream is from the appropriate sendor.</dd>
+      <dd>- Used by the Node to ensure the JSON stream is from the appropriate sendor.</dd>
     <dt>URL</dt>
       <dd>- The URL that will listen for the JSON stream. This path will be appended to the servers domain name and port.
       <code>http://yourserver:port/URL</code>

@@ -106,7 +106,7 @@ July 2017
 ![](https://github.com/dexterlabora/node-red-contrib-meraki-cmx/blob/master/meraki-node-settings.png?raw=true "Meraki Node Settings")
 
 
-### Meraki Dashboard Map Placement
+### Meraki Dashboard AP Map Placement
 ![](https://github.com/dexterlabora/node-red-contrib-meraki-cmx/blob/master/meraki-dashboard-map.png?raw=true "Meraki Dashboard Map")
 
 

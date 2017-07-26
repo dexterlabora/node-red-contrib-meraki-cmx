@@ -128,8 +128,9 @@ module.exports = function (RED) {
         console.log(node.url+' Received Data, validating secret');
 
       try{
-          // Check API Version
-          if(!req.body.data){
+          console.log("processing Meraki observation data");
+          if(!req.body){
+            //console.log("invalid post data: ",req);
             throw "unrecognized data";
           }
 
@@ -150,6 +151,7 @@ module.exports = function (RED) {
             status.remoteAddress = req.connection.remoteAddress;
             status.statusCode = 500; // server error
             node.send([null, status]);
+            res.end();
             return null;
           }       
 
@@ -168,6 +170,7 @@ module.exports = function (RED) {
             status.remoteAddress = req.connection.remoteAddress;
             status.statusCode = 401;
             node.send([null, status]);
+            res.end();      
             return null
           }else{
             // Secret verified
@@ -216,6 +219,7 @@ module.exports = function (RED) {
             status.statusCode = 200; // OK 
             res.sendStatus(200); //respond to client with status code
             node.send([null, status]);
+            res.end();
             return null
           }
         
@@ -230,7 +234,7 @@ module.exports = function (RED) {
         console.log(e);
         node.status({fill:"red",shape:"dot",text:"invalid post"});
         res.sendStatus(500); // Server Error    
-        node.error("Invalid POST from " + req.connection.remoteAddress, msg);
+        node.error("Invalid POST req data from " + req.connection.remoteAddress, req);
         var status = {};
         status.topic = "error";
         status.payload = "invalid post data";
@@ -239,6 +243,7 @@ module.exports = function (RED) {
         status.data = req.body;
         status.statusCode = 500;
         node.send([null, status]); 
+        res.end();
          return null
         }
     });
