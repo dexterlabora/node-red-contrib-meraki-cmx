@@ -10,7 +10,9 @@
     "type": "git",
     "url": "https://github.com/dexterlabora/node-red-contrib-meraki-cmx.git"
   },
-  "dependencies": {},
+  "dependencies": {
+    "body-parser": "^1.17.2"
+  },
   "keywords": [
     "node-red",
     "meraki",
