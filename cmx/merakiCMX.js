@@ -14,15 +14,14 @@
 
 module.exports = function (RED) {
   "use strict";
+  var bodyParser = require("body-parser");
+  var jsonParser = bodyParser.json();
 
   function merakiCMXsettings(config) {
       RED.nodes.createNode(this,config);
-      //this.name = config.name;
-      //this.url = config.url;
-      //console.log('merakiCMXsettings config %j',config);
-      //console.log('merakiCMXsettings this  %j',this);
-      //console.log('merakiCMXsettings this '+ JSON.stringify(this, null, 2));
+      //console.log('merakiCMXsettings config',config);
   }
+    
   // Settings
   RED.nodes.registerType("meraki-cmx-settings",merakiCMXsettings,{
     credentials: {
@@ -60,7 +59,7 @@ module.exports = function (RED) {
 
     // close open URL listeners
     this.on("close",function() {
-        var node = this;
+        //var node = this;
         console.log("closing routes");
         console.log("node.url "+node.url);
         //console.log("RED.httpNode._router.stack "+ JSON.stringify(RED.httpNode._router.stack, null, 3));
@@ -73,21 +72,7 @@ module.exports = function (RED) {
             }
           }
         }
-        //console.log("RED.httpNode._router.stack: New Results"+ JSON.stringify(RED.httpNode._router.stack, null, 3));
-
-        /*
-        RED.httpNode._router.stack.forEach(function(route,i,routes) {
-            console.log("route.route "+route.route);
-            console.log("route.route.path "+route.route.path);
-
-            if (route.route && route.route.path === node.url) {
-                routes.splice(i,1);
-                console.log("route closed: /"+node.url);
-            }else{
-              console.log("no routes closed");
-            }
-        });
-        */
+        
     });
 
 
@@ -99,15 +84,14 @@ module.exports = function (RED) {
     //console.log("DEBUGGING node ",node);
     console.log('cmxServer url: '+node.url);
     console.log('cmxServer validator: '+node.settings.credentials.validator);
-    //console.log('cmxServer node: '+JSON.stringify(node, null, 2));
-    //console.log('cmxServer secret: '+node.settings.credentials.secret);
     
     node.status({fill:"yellow",shape:"dot",text:"waiting for first contact"});
 
-    //var msg = {};
     var data = {};
-
+    
     RED.httpNode.get(node.url, function(req, res){
+      //console.log("Get request DEBUGGING req: ",req);
+      console.log("Get request DEBUGGING req.query: ",req.query);
       console.log("sending validator: "+node.settings.credentials.validator);
       node.status({fill:"blue",shape:"dot",text:"sent validator"});
       setTimeout(function(){
@@ -120,18 +104,18 @@ module.exports = function (RED) {
       status.validator = node.settings.credentials.validator;
       status.remoteAddress = req.connection.remoteAddress;
       node.send([null, status]);
-      //res.send(msg.validator);
       res.send(data.payload);
     });
 
-    RED.httpNode.post(node.url, function(req, res){
+    RED.httpNode.post(node.url, jsonParser, function(req, res){
         console.log(node.url+' Received Data, validating secret');
+        //console.log("Post request DEBUGGING req.body: ",req.body);
 
       try{
           console.log("processing Meraki observation data");
           if(!req.body){
-            //console.log("invalid post data: ",req);
-            throw "unrecognized data";
+            console.log("invalid post data: ",req);
+            throw "unrecognized data", req;
           }
 
 
@@ -161,7 +145,7 @@ module.exports = function (RED) {
             console.log('Error: Invalid Secret from: '+req.connection.remoteAddress);
             node.status({fill:"red",shape:"dot",text:"secret invalid"});
             res.sendStatus(401); // unauthorized
-            node.error("Invalid Secret from "+req.connection.remoteAddress,msg);
+            node.error("Invalid Secret from "+req.connection.remoteAddress);
             var status = {};
             status.topic = "secret";
             status.payload = "invalid secret";
@@ -221,12 +205,7 @@ module.exports = function (RED) {
             node.send([null, status]);
             res.end();
             return null
-          }
-        
-          
-
-               
-            
+          }     
          
        } catch (e) {
         // An error has occured
@@ -240,9 +219,10 @@ module.exports = function (RED) {
         status.payload = "invalid post data";
         status.remoteAddress = req.connection.remoteAddress;
         status.error = e;
-        status.data = req.body;
+        status.data = req;
         status.statusCode = 500;
         node.send([null, status]); 
+        res.send(req);
         res.end();
          return null
         }
