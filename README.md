@@ -83,6 +83,11 @@ The Node requires the following configurations
 - Multiple Nodes with an identical URL will not function properly. Instead, use a "link" node to send the data to multiple flows.
 
 ## Changelog
+August 2017
+* Fixed "invalid data" issue. (Heroku was impacted by this)
+* Removed reference to `msg` object
+* Handle invalid secret better. 
+
 July 2017
 * Added Status output
 * Return status codes
